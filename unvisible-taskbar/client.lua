@@ -2,14 +2,11 @@
 local lockpos = false
 local insidePrompt = false
 local guiEnabled = false
-iditema = 0
--- openGui(length,math.random(1000000))
 function openGui(sentLength,taskID,namesent,keepWeapon)
     if not keepWeapon then
         TriggerEvent("actionbar:setEmptyHanded")
     end
     guiEnabled = true
---    TriggerEvent('InvGliceriMrtvi')
     SendNUIMessage({runProgress = true, Length = sentLength, Task = taskID, name = namesent})
 end
 function updateGui(sentLength,taskID,namesent)
@@ -19,12 +16,10 @@ local activeTasks = {}
 function closeGuiFail()
     guiEnabled = false
     SendNUIMessage({closeFail = true})
-    --ClearPedTasks(PlayerPedId())
 end
 function closeGui()
     guiEnabled = false
     SendNUIMessage({closeProgress = true})
-    --ClearPedTasks(PlayerPedId())
 end
 
 function closeNormalGui()
@@ -57,7 +52,6 @@ function taskBar(length,name,runCheck,keepWeapon,vehicle,vehCheck)
     local taskIdentifier = "taskid" .. math.random(1000000)
     openGui(length,taskIdentifier,name,keepWeapon)
     activeTasks[taskIdentifier] = 1
-    --TriggerEvent('closeInventoryGui')
     local maxcount = GetGameTimer() + length
     local curTime
     while activeTasks[taskIdentifier] == 1 do
