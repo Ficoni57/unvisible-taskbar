@@ -22,6 +22,7 @@ function closeGui()
     SendNUIMessage({closeProgress = true})
 end
 
+
 function closeNormalGui()
     guiEnabled = false
 end
@@ -45,9 +46,7 @@ function taskBar(length,name,runCheck,keepWeapon,vehicle,vehCheck)
     if taskInProcess then
         return 0
     end
-    if coffeetimer > 0 then
-        length = math.ceil(length * 0.66)
-    end
+ 
     taskInProcess = true
     local taskIdentifier = "taskid" .. math.random(1000000)
     openGui(length,taskIdentifier,name,keepWeapon)
@@ -136,3 +135,25 @@ function CheckCancels()
     end
     return false
 end
+RegisterNetEvent('hud:taskBar')
+AddEventHandler('hud:taskBar', function(length,name)
+    taskBar(length,name)
+end)
+
+RegisterNetEvent('hud:insidePrompt')
+AddEventHandler('hud:insidePrompt', function(bool)
+    insidePrompt = bool
+end)
+
+RegisterNetEvent('event:control:taskBar')
+AddEventHandler('event:control:taskBar', function(useID)
+    if useID == 1 and not insidePrompt then
+        TriggerEvent("radioGui")
+    elseif useID == 2 and not insidePrompt then
+        TriggerEvent("stereoGui") 
+    elseif useID == 3 and not insidePrompt then
+        TriggerEvent("phoneGui") 
+    elseif useID == 4 and guiEnabled then 
+        closeGuiFail() 
+    end
+end)
